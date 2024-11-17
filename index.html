@@ -19,6 +19,10 @@
             border-radius: 8px;
             margin-top: 16px;
         }
+        ::placeholder {
+            color: #666;
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-gray-100 p-4">
@@ -29,33 +33,33 @@
             <!-- Input Section -->
             <div class="space-y-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Total TVL ($)</label>
-                    <input type="number" id="tvl" value="607380000" />
+                    <label class="block text-sm font-medium mb-1">Total Value Locked (TVL)</label>
+                    <input type="number" id="tvl" placeholder="Enter TVL in USD" />
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-1">Staked in Gauge (%)</label>
-                    <input type="number" id="stakedPercentage" value="32.89" />
+                    <label class="block text-sm font-medium mb-1">Staked in Gauge</label>
+                    <input type="number" id="stakedPercentage" placeholder="Enter percentage staked in gauge" />
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-1">Your Share (%)</label>
-                    <input type="number" id="mySharesPercentage" value="0.50" />
+                    <label class="block text-sm font-medium mb-1">Your Share</label>
+                    <input type="number" id="mySharesPercentage" placeholder="Enter your share percentage" />
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium mb-1">Yearly BGT Distribution</label>
-                    <input type="number" id="yearlyBGTDistribution" value="7880000" />
+                    <input type="number" id="yearlyBGTDistribution" placeholder="Enter yearly BGT distribution amount" />
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-1">Gauge Capture Rate (%)</label>
-                    <input type="number" id="gaugeCaptureRate" value="18" />
+                    <label class="block text-sm font-medium mb-1">Gauge Capture Rate</label>
+                    <input type="number" id="gaugeCaptureRate" placeholder="Enter gauge capture rate percentage" />
                 </div>
                 
                 <div>
                     <label class="block text-sm font-medium mb-1">Multiplier</label>
-                    <input type="number" id="multiplier" value="51" />
+                    <input type="number" id="multiplier" placeholder="Enter multiplier value" />
                 </div>
             </div>
             
