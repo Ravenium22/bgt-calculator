@@ -4,14 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BGT Calculator</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2/dist/tailwind.min.css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        .result-box {
+            background-color: #f8fafc;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 16px;
+        }
+    </style>
 </head>
-<body>
-    <div id="root"></div>
-    <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
-    <script type="text/babel" src="script.js"></script>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <h1 class="text-2xl font-bold mb-6">BGT Rewards Calculator</h1>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Input Section -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Total TVL ($)</label>
+                    <input type="number" id="tvl" value="607380000" />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Staked in Gauge (%)</label>
+                    <input type="number" id="stakedPercentage" value="32.89" />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Your Share (%)</label>
+                    <input type="number" id="mySharesPercentage" value="0.50" />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Yearly BGT Distribution</label>
+                    <input type="number" id="yearlyBGTDistribution" value="7880000" />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Gauge Capture Rate (%)</label>
+                    <input type="number" id="gaugeCaptureRate" value="18" />
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium mb-1">Multiplier</label>
+                    <input type="number" id="multiplier" value="51" />
+                </div>
+            </div>
+            
+            <!-- Results Section -->
+            <div class="result-box">
+                <h3 class="font-bold text-lg mb-4">Results</h3>
+                
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-sm font-medium">Total Value Staked</p>
+                        <p class="text-xl" id="totalValueStaked">$0</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm font-medium">Your Share Value</p>
+                        <p class="text-xl" id="mySharesUSD">$0</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm font-medium">Yearly BGT for Gauge</p>
+                        <p class="text-xl" id="yearlyBGTForGauge">0 BGT</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm font-medium">Base BGT per Day</p>
+                        <p class="text-xl" id="basicBGTPerDay">0 BGT</p>
+                    </div>
+                    
+                    <div>
+                        <p class="text-sm font-medium">Adjusted BGT per Day (with multiplier)</p>
+                        <p class="text-xl font-bold" id="adjustedBGTPerDay">0 BGT</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatNumber(num) {
+            return new Intl.NumberFormat().format(Number(num).toFixed(2));
+        }
+
+        function calculate() {
+            const tvl = parseFloat(document.getElementById('tvl').value) || 0;
+            const stakedPercentage = parseFloat(document.getElementById('stakedPercentage').value) || 0;
+            const mySharesPercentage = parseFloat(document.getElementById('mySharesPercentage').value) || 0;
+            const yearlyBGTDistribution = parseFloat(document.getElementById('yearlyBGTDistribution').value) || 0;
+            const gaugeCaptureRate = parseFloat(document.getElementById('gaugeCaptureRate').value) || 0;
+            const multiplier = parseFloat(document.getElementById('multiplier').value) || 0;
+
+            // Calculations
+            const totalValueStaked = tvl * (stakedPercentage / 100);
+            const mySharesUSD = totalValueStaked * (mySharesPercentage / 100);
+            const yearlyBGTForGauge = yearlyBGTDistribution * (gaugeCaptureRate / 100);
+            const basicBGTPerYear = (yearlyBGTForGauge * mySharesUSD) / totalValueStaked;
+            const basicBGTPerDay = basicBGTPerYear / 365;
+            const adjustedBGTPerDay = basicBGTPerDay * multiplier;
+
+            // Update results
+            document.getElementById('totalValueStaked').textContent = `$${formatNumber(totalValueStaked)}`;
+            document.getElementById('mySharesUSD').textContent = `$${formatNumber(mySharesUSD)}`;
+            document.getElementById('yearlyBGTForGauge').textContent = `${formatNumber(yearlyBGTForGauge)} BGT`;
+            document.getElementById('basicBGTPerDay').textContent = `${formatNumber(basicBGTPerDay)} BGT`;
+            document.getElementById('adjustedBGTPerDay').textContent = `${formatNumber(adjustedBGTPerDay)} BGT`;
+        }
+
+        // Add event listeners to all inputs
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+
+        // Calculate initial values
+        calculate();
+    </script>
 </body>
 </html>
