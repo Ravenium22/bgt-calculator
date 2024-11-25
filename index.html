@@ -5,94 +5,106 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BGT Calculator</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         input[type="number"] {
             width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
             margin-bottom: 10px;
+            background-color: #f8fafc;
+            transition: all 0.2s;
+        }
+        input[type="number"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
         .result-box {
-            background-color: #f8fafc;
-            padding: 16px;
-            border-radius: 8px;
+            background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+            padding: 24px;
+            border-radius: 12px;
             margin-top: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         ::placeholder {
-            color: #666;
+            color: #94a3b8;
             opacity: 1;
+        }
+        .orbitron {
+            font-family: 'Orbitron', sans-serif;
+        }
+        .social-button {
+            transition: transform 0.2s;
+        }
+        .social-button:hover {
+            transform: translateY(-2px);
         }
     </style>
 </head>
-<body class="bg-gray-100 p-4">
-    <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow-lg">
-        <h1 class="text-2xl font-bold mb-6">BGT Rewards Calculator</h1>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-xl">
+        <div class="flex items-center justify-between mb-8">
+            <h1 class="text-3xl font-bold text-gray-800 orbitron bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600">BGT Rewards Calculator</h1>
+            <img src="https://pbs.twimg.com/profile_images/1775162753499508736/2XBUzQhl_400x400.jpg" alt="Ravenium Logo" class="w-16 h-16 rounded-full shadow-lg">
+        </div>
         
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <!-- Input Section -->
-            <div class="space-y-4">
+            <div class="space-y-6">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Total Value Locked (TVL)</label>
+                    <label class="block text-sm font-semibold mb-2 text-gray-700">Total Value Locked (TVL)</label>
                     <input type="number" id="tvl" placeholder="Enter TVL in USD" />
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-1">Staked in Gauge</label>
-                    <input type="number" id="stakedPercentage" placeholder="Enter percentage staked in gauge" />
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">Your Share</label>
+                    <label class="block text-sm font-semibold mb-2 text-gray-700">Your Share</label>
                     <input type="number" id="mySharesPercentage" placeholder="Enter your share percentage" />
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-1">Yearly BGT Distribution</label>
+                    <label class="block text-sm font-semibold mb-2 text-gray-700">Yearly BGT Distribution</label>
                     <input type="number" id="yearlyBGTDistribution" placeholder="Enter yearly BGT distribution amount" />
                 </div>
                 
                 <div>
-                    <label class="block text-sm font-medium mb-1">Gauge Capture Rate</label>
+                    <label class="block text-sm font-semibold mb-2 text-gray-700">Gauge Capture Rate</label>
                     <input type="number" id="gaugeCaptureRate" placeholder="Enter gauge capture rate percentage" />
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium mb-1">Multiplier</label>
-                    <input type="number" id="multiplier" placeholder="Enter multiplier value" />
                 </div>
             </div>
             
             <!-- Results Section -->
             <div class="result-box">
-                <h3 class="font-bold text-lg mb-4">Results</h3>
+                <h3 class="font-bold text-xl mb-6 text-gray-800 orbitron">Estimated Rewards</h3>
                 
-                <div class="space-y-4">
+                <div class="space-y-6">
                     <div>
-                        <p class="text-sm font-medium">Total Value Staked</p>
-                        <p class="text-xl" id="totalValueStaked">$0</p>
+                        <p class="text-sm font-semibold text-gray-600">Your Share Value</p>
+                        <p class="text-2xl font-bold text-gray-800" id="mySharesUSD">$0</p>
                     </div>
                     
                     <div>
-                        <p class="text-sm font-medium">Your Share Value</p>
-                        <p class="text-xl" id="mySharesUSD">$0</p>
+                        <p class="text-sm font-semibold text-gray-600">Yearly BGT for Gauge</p>
+                        <p class="text-2xl font-bold text-gray-800" id="yearlyBGTForGauge">0 BGT</p>
                     </div>
                     
-                    <div>
-                        <p class="text-sm font-medium">Yearly BGT for Gauge</p>
-                        <p class="text-xl" id="yearlyBGTForGauge">0 BGT</p>
-                    </div>
-                    
-                    <div>
-                        <p class="text-sm font-medium">Base BGT per Day</p>
-                        <p class="text-xl" id="basicBGTPerDay">0 BGT</p>
-                    </div>
-                    
-                    <div>
-                        <p class="text-sm font-medium">Adjusted BGT per Day (with multiplier)</p>
-                        <p class="text-xl font-bold" id="adjustedBGTPerDay">0 BGT</p>
+                    <div class="pt-4 border-t border-gray-200">
+                        <p class="text-sm font-semibold text-gray-600">Your BGT Rewards per Day</p>
+                        <p class="text-3xl font-bold text-blue-600" id="basicBGTPerDay">0 BGT</p>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 pt-6 border-t border-gray-200">
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <p class="text-gray-600 font-medium">Made by Ravenium | Discord: ravenium22</p>
+                <a href="https://x.com/RaveniumNFT" target="_blank" rel="noopener noreferrer" 
+                   class="social-button inline-flex items-center px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-full hover:shadow-lg">
+                    Follow on X
+                </a>
             </div>
         </div>
     </div>
@@ -104,26 +116,20 @@
 
         function calculate() {
             const tvl = parseFloat(document.getElementById('tvl').value) || 0;
-            const stakedPercentage = parseFloat(document.getElementById('stakedPercentage').value) || 0;
             const mySharesPercentage = parseFloat(document.getElementById('mySharesPercentage').value) || 0;
             const yearlyBGTDistribution = parseFloat(document.getElementById('yearlyBGTDistribution').value) || 0;
             const gaugeCaptureRate = parseFloat(document.getElementById('gaugeCaptureRate').value) || 0;
-            const multiplier = parseFloat(document.getElementById('multiplier').value) || 0;
 
             // Calculations
-            const totalValueStaked = tvl * (stakedPercentage / 100);
-            const mySharesUSD = totalValueStaked * (mySharesPercentage / 100);
+            const mySharesUSD = tvl * (mySharesPercentage / 100);
             const yearlyBGTForGauge = yearlyBGTDistribution * (gaugeCaptureRate / 100);
-            const basicBGTPerYear = (yearlyBGTForGauge * mySharesUSD) / totalValueStaked;
+            const basicBGTPerYear = (yearlyBGTForGauge * mySharesUSD) / tvl;
             const basicBGTPerDay = basicBGTPerYear / 365;
-            const adjustedBGTPerDay = basicBGTPerDay * multiplier;
 
             // Update results
-            document.getElementById('totalValueStaked').textContent = `$${formatNumber(totalValueStaked)}`;
             document.getElementById('mySharesUSD').textContent = `$${formatNumber(mySharesUSD)}`;
             document.getElementById('yearlyBGTForGauge').textContent = `${formatNumber(yearlyBGTForGauge)} BGT`;
             document.getElementById('basicBGTPerDay').textContent = `${formatNumber(basicBGTPerDay)} BGT`;
-            document.getElementById('adjustedBGTPerDay').textContent = `${formatNumber(adjustedBGTPerDay)} BGT`;
         }
 
         // Add event listeners to all inputs
